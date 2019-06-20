@@ -1,10 +1,10 @@
 import { Component } from 'inferno';
 
-import Header from './components/layout/Header';
-import Button from './components/shared/Button';
-import Search from './components/forms/Search';
-import Section from './components/layout/Section';
-import NewsTable from './components/NewsTable';
+import Header from './layout/Header';
+import Button from './shared/Button';
+import Search from './forms/Search';
+import Section from './layout/Section';
+import NewsTable from './NewsTable';
 
 const list = [
   {

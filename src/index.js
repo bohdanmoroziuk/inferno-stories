@@ -1,7 +1,7 @@
 import { render } from 'inferno';
 import * as serviceWorker from './serviceWorker';
 
-import App from './App';
+import App from './components/App';
 
 import 'bootstrap-material-design/dist/css/bootstrap-material-design.min.css';
 import './index.css';
