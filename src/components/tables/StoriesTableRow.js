@@ -3,13 +3,13 @@ import Button from '../shared/Button';
 
 const StoriesTableRow = ({ story, onStoryDismiss }) => (
   <tr class="news-table-row" key={story.objectID}>
-    <td className="p-3">
+    <td>
       <a href={story.url}>{story.title}</a>
     </td>
-    <td className="p-3">{story.author}</td>
-    <td className="p-3">{story.num_comments}</td>
-    <td className="p-3">{story.points}</td>
-    <td className="p-3">
+    <td>{story.author}</td>
+    <td className="text-center">{story.num_comments}</td>
+    <td className="text-center">{story.points}</td>
+    <td>
       <Button className="btn btn-danger btn-sm" onClick={onStoryDismiss}>
         Hide
       </Button>

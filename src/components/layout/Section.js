@@ -1,6 +1,6 @@
 const Section = ({ children }) => (
   <div className="row mt-4">
-    <div className="col-8 offset-2">{children}</div>
+    <div className="col-md-12 col-xl-10 offset-xl-1">{children}</div>
   </div>
 );
 
