@@ -7,15 +7,7 @@ import Section from './layout/Section';
 import StoriesTable from './tables/StoriesTable';
 import Button from './shared/Button';
 
-const DEFAULT_QUERY = 'redux';
-const DEFAULT_HPP = 5;
-
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search?';
-
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_HPP = 'hitsPerPage=';
+import { API } from '../constants';
 
 class App extends Component {
   _isMounted = false;
@@ -23,7 +15,7 @@ class App extends Component {
   state = {
     stories: [],
     searchKey: '',
-    searchTerm: DEFAULT_QUERY,
+    searchTerm: API.DEFAULT_QUERY,
     error: null
   };
 
@@ -82,7 +74,9 @@ class App extends Component {
   };
 
   buildQueryUrl = (searchTerm, page = 0) => {
-    return `${PATH_BASE}${PATH_SEARCH}${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`;
+    return `${API.PATH_BASE}${API.PATH_SEARCH}${
+      API.PARAM_SEARCH
+    }${searchTerm}&${API.PARAM_PAGE}${page}&${API.PARAM_HPP}${API.DEFAULT_HPP}`;
   };
 
   onSearchChange = event => {
