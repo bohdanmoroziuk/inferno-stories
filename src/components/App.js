@@ -1,58 +1,41 @@
 import { Component } from 'inferno';
 
 import Header from './layout/Header';
-import Button from './shared/Button';
 import Search from './forms/Search';
 import Section from './layout/Section';
 import NewsTable from './NewsTable';
 
-const list = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org/',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1
-  }
-];
+const DEFAULT_QUERY = 'redux';
+
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search?';
+const PARAM_SEARCH = 'query=';
 
 class App extends Component {
   state = {
-    list,
-    searchTerm: ''
+    news: [],
+    searchTerm: DEFAULT_QUERY
   };
 
-  renderTableRow = listItem => {
-    const handleClick = () => this.dismissListItem(listItem.objectID);
+  componentDidMount() {
+    this.fetchNews();
+  }
 
-    return (
-      <tr class="news-item" key={listItem.objectID}>
-        <td className="p-3">
-          <a href={listItem.url}>{listItem.title}</a>
-        </td>
-        <td className="p-3">{listItem.author}</td>
-        <td className="p-3">{listItem.num_comments}</td>
-        <td className="p-3">{listItem.points}</td>
-        <td>
-          <Button
-            className="btn btn-danger btn-sm"
-            type="button"
-            onClick={handleClick}
-          >
-            Dismiss
-          </Button>
-        </td>
-      </tr>
-    );
+  setNews = data => {
+    this.setState({ news: data.hits });
+  };
+
+  fetchNews = () => {
+    const queryUrl = this.buildQueryUrl(this.state.searchTerm);
+
+    fetch(queryUrl)
+      .then(response => response.json())
+      .then(data => this.setNews(data))
+      .catch(reason => console.error(reason));
+  };
+
+  buildQueryUrl = searchTerm => {
+    return `${PATH_BASE}${PATH_SEARCH}${PARAM_SEARCH}${searchTerm}`;
   };
 
   changeSearchTerm = event => {
@@ -64,17 +47,17 @@ class App extends Component {
   dismissListItem = listItemId => {
     const isNotId = listItem => listItem.objectID !== listItemId;
 
-    const updatedList = this.state.list.filter(isNotId);
+    const updatedNews = this.state.news.filter(isNotId);
 
     this.setState({
-      list: updatedList
+      news: updatedNews
     });
   };
 
   filterList = () => {
-    const { list, searchTerm } = this.state;
+    const { news, searchTerm } = this.state;
 
-    return list.filter(listItem =>
+    return news.filter(listItem =>
       listItem.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
@@ -98,12 +81,14 @@ class App extends Component {
             />
           </Section>
           <Section>
-            <NewsTable
-              {...{
-                news,
-                hideNews: this.dismissListItem
-              }}
-            />
+            {news && (
+              <NewsTable
+                {...{
+                  news,
+                  hideNews: this.dismissListItem
+                }}
+              />
+            )}
           </Section>
         </div>
       </main>
