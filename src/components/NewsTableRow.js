@@ -1,7 +1,7 @@
 import Button from './shared/Button';
 
 const NewsTableRow = ({ news, hideNews }) => (
-  <tr class="news-item" key={news.objectID}>
+  <tr class="news-table-row" key={news.objectID}>
     <td className="p-3">
       <a href={news.url}>{news.title}</a>
     </td>
