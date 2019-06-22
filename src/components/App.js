@@ -20,7 +20,8 @@ class App extends Component {
   state = {
     stories: [],
     searchKey: '',
-    searchTerm: DEFAULT_QUERY
+    searchTerm: DEFAULT_QUERY,
+    error: null
   };
 
   componentDidMount() {
@@ -65,7 +66,7 @@ class App extends Component {
     fetch(queryUrl)
       .then(response => response.json())
       .then(data => this.setStories(data))
-      .catch(reason => console.error(reason));
+      .catch(error => this.setState({ error }));
   };
 
   showMoreStories = page => {
@@ -108,7 +109,7 @@ class App extends Component {
   };
 
   render() {
-    const { stories, searchKey, searchTerm } = this.state;
+    const { error, stories, searchKey, searchTerm } = this.state;
 
     const page =
       (stories && stories[searchKey] && stories[searchKey].page) || 0;
@@ -130,7 +131,11 @@ class App extends Component {
             />
           </Section>
           <Section>
-            {stories && (
+            {error ? (
+              <div className="alert alert-warning text-center" role="alert">
+                Something went wrong!!!
+              </div>
+            ) : (
               <StoriesTable
                 {...{
                   stories: hits,
