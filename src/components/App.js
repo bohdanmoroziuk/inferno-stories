@@ -4,7 +4,7 @@ import axios from 'axios';
 import Header from './layout/Header';
 import Search from './forms/Search';
 import Section from './layout/Section';
-import StoriesTable from './StoriesTable';
+import StoriesTable from './tables/StoriesTable';
 import Button from './shared/Button';
 
 const DEFAULT_QUERY = 'redux';

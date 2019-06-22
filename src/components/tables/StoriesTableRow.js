@@ -1,4 +1,4 @@
-import Button from './shared/Button';
+import Button from '../shared/Button';
 
 const StoriesTableRow = ({ story, onStoryDismiss }) => (
   <tr class="news-table-row" key={story.objectID}>
