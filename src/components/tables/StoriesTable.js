@@ -1,7 +1,28 @@
 import { arrayOf, object, func } from 'prop-types';
 import StoriesTableRow from './StoriesTableRow';
+import Icon from '../shared/Icon';
 
 const StoriesTable = ({ stories, onDismiss }) => {
+  const renderTableHead = () => (
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th className="text-center">
+          <Icon variant="far" icon="comments" />
+        </th>
+        <th className="text-center">
+          <Icon variant="far" icon="thumbs-up" />
+        </th>
+        <th />
+      </tr>
+    </thead>
+  );
+
+  const renderTableBody = () => (
+    <tbody>{stories && stories.map(renderStory)}</tbody>
+  );
+
   const renderStory = story => {
     const handleClick = () => onDismiss(story.objectID);
 
@@ -16,9 +37,12 @@ const StoriesTable = ({ stories, onDismiss }) => {
   };
 
   return (
-    <table className="table news-table">
-      <tbody>{stories && stories.map(renderStory)}</tbody>
-    </table>
+    <div className="table-responsive">
+      <table className="table table-hover news-table">
+        {renderTableHead()}
+        {renderTableBody()}
+      </table>
+    </div>
   );
 };
 
