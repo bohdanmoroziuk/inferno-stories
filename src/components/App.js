@@ -1,4 +1,5 @@
 import { Component } from 'inferno';
+import axios from 'axios';
 
 import Header from './layout/Header';
 import Search from './forms/Search';
@@ -63,9 +64,8 @@ class App extends Component {
   fetchStories = (searchTerm, page) => {
     const queryUrl = this.buildQueryUrl(searchTerm, page);
 
-    fetch(queryUrl)
-      .then(response => response.json())
-      .then(data => this.setStories(data))
+    axios(queryUrl)
+      .then(result => this.setStories(result.data))
       .catch(error => this.setState({ error }));
   };
 
