@@ -18,6 +18,8 @@ const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
 class App extends Component {
+  _isMounted = false;
+
   state = {
     stories: [],
     searchKey: '',
@@ -26,7 +28,13 @@ class App extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.makeApiCall();
+  }
+
+  componentWillMount() {
+    this._isMounted = false;
   }
 
   makeApiCall = () => {
@@ -65,8 +73,8 @@ class App extends Component {
     const queryUrl = this.buildQueryUrl(searchTerm, page);
 
     axios(queryUrl)
-      .then(result => this.setStories(result.data))
-      .catch(error => this.setState({ error }));
+      .then(result => this._isMounted && this.setStories(result.data))
+      .catch(error => this._isMounted && this.setState({ error }));
   };
 
   showMoreStories = page => {
