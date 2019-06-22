@@ -3,6 +3,9 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './components/App';
 
+import '@fortawesome/fontawesome-free/js/all.min.js';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import 'bootstrap-material-design/dist/css/bootstrap-material-design.min.css';
 import './index.css';
 
