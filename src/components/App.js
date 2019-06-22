@@ -5,8 +5,7 @@ import Header from './layout/Header';
 import Search from './forms/Search';
 import Section from './layout/Section';
 import StoriesTable from './tables/StoriesTable';
-import Button from './shared/Button';
-import Loader from './shared/Loader';
+import LoadingButton from './shared/LoadingButton';
 
 import { API } from '../constants';
 
@@ -152,16 +151,13 @@ class App extends Component {
             )}
           </Section>
           <Section>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <Button
-                className="btn btn-secondary btn-sm"
-                onClick={() => this.showMoreStories(page + 1)}
-              >
-                More stories
-              </Button>
-            )}
+            <LoadingButton
+              className="btn btn-secondary btn-sm"
+              onClick={() => this.showMoreStories(page + 1)}
+              {...{ isLoading }}
+            >
+              More stories
+            </LoadingButton>
           </Section>
         </div>
       </main>
