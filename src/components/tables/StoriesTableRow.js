@@ -1,3 +1,4 @@
+import { object, func } from 'prop-types';
 import Button from '../shared/Button';
 
 const StoriesTableRow = ({ story, onStoryDismiss }) => (
@@ -15,5 +16,10 @@ const StoriesTableRow = ({ story, onStoryDismiss }) => (
     </td>
   </tr>
 );
+
+StoriesTableRow.propTypes = {
+  story: object.isRequired,
+  onStoryDismiss: func.isRequired
+};
 
 export default StoriesTableRow;

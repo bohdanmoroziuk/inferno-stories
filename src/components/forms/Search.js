@@ -1,3 +1,4 @@
+import { string, func } from 'prop-types';
 import Button from '../shared/Button';
 
 const Search = ({ value, onChange, onSubmit, placeholder }) => (
@@ -23,6 +24,13 @@ const Search = ({ value, onChange, onSubmit, placeholder }) => (
 
 Search.defaultProps = {
   placeholder: 'Search'
+};
+
+Search.propTypes = {
+  value: string.isRequired,
+  onChange: func.isRequired,
+  onSubmit: func.isRequired,
+  placeholder: string
 };
 
 export default Search;

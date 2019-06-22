@@ -123,7 +123,7 @@ class App extends Component {
       <main className="app">
         <div className="container">
           <Section>
-            <Header />
+            <Header title="Stories" />
           </Section>
           <Section>
             <Search
