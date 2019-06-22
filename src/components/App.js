@@ -6,6 +6,7 @@ import Search from './forms/Search';
 import Section from './layout/Section';
 import StoriesTable from './tables/StoriesTable';
 import Button from './shared/Button';
+import Loader from './shared/Loader';
 
 import { API } from '../constants';
 
@@ -16,7 +17,8 @@ class App extends Component {
     stories: [],
     searchKey: '',
     searchTerm: API.DEFAULT_QUERY,
-    error: null
+    error: null,
+    isLoading: false
   };
 
   componentDidMount() {
@@ -57,12 +59,15 @@ class App extends Component {
           hits: newHits,
           page
         }
-      }
+      },
+      isLoading: false
     });
   };
 
   fetchStories = (searchTerm, page) => {
     const queryUrl = this.buildQueryUrl(searchTerm, page);
+
+    this.setState({ isLoading: true });
 
     axios(queryUrl)
       .then(result => this._isMounted && this.setStories(result.data))
@@ -111,7 +116,7 @@ class App extends Component {
   };
 
   render() {
-    const { error, stories, searchKey, searchTerm } = this.state;
+    const { error, stories, searchKey, searchTerm, isLoading } = this.state;
 
     const page =
       (stories && stories[searchKey] && stories[searchKey].page) || 0;
@@ -147,12 +152,16 @@ class App extends Component {
             )}
           </Section>
           <Section>
-            <Button
-              className="btn btn-secondary btn-sm"
-              onClick={() => this.showMoreStories(page + 1)}
-            >
-              More stories
-            </Button>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Button
+                className="btn btn-secondary btn-sm"
+                onClick={() => this.showMoreStories(page + 1)}
+              >
+                More stories
+              </Button>
+            )}
           </Section>
         </div>
       </main>
