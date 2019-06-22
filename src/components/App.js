@@ -3,7 +3,7 @@ import { Component } from 'inferno';
 import Header from './layout/Header';
 import Search from './forms/Search';
 import Section from './layout/Section';
-import NewsTable from './NewsTable';
+import StoriesTable from './StoriesTable';
 
 const DEFAULT_QUERY = 'redux';
 
@@ -13,24 +13,24 @@ const PARAM_SEARCH = 'query=';
 
 class App extends Component {
   state = {
-    news: [],
+    stories: [],
     searchTerm: DEFAULT_QUERY
   };
 
   componentDidMount() {
-    this.fetchNews();
+    this.fetchStories(this.state.searchTerm);
   }
 
-  setNews = data => {
-    this.setState({ news: data.hits });
+  setStories = data => {
+    this.setState({ stories: data.hits });
   };
 
-  fetchNews = () => {
-    const queryUrl = this.buildQueryUrl(this.state.searchTerm);
+  fetchStories = searchTerm => {
+    const queryUrl = this.buildQueryUrl(searchTerm);
 
     fetch(queryUrl)
       .then(response => response.json())
-      .then(data => this.setNews(data))
+      .then(data => this.setStories(data))
       .catch(reason => console.error(reason));
   };
 
@@ -38,34 +38,30 @@ class App extends Component {
     return `${PATH_BASE}${PATH_SEARCH}${PARAM_SEARCH}${searchTerm}`;
   };
 
-  changeSearchTerm = event => {
+  onSearchChange = event => {
     this.setState({
       searchTerm: event.target.value
     });
   };
 
-  dismissListItem = listItemId => {
-    const isNotId = listItem => listItem.objectID !== listItemId;
+  onSearchSubmit = event => {
+    event.preventDefault();
 
-    const updatedNews = this.state.news.filter(isNotId);
+    this.fetchStories(this.state.searchTerm);
+  };
+
+  onStoryDismiss = id => {
+    const isNotId = story => story.objectID !== id;
+
+    const updatedStories = this.state.stories.filter(isNotId);
 
     this.setState({
-      news: updatedNews
+      stories: updatedStories
     });
   };
 
-  filterList = () => {
-    const { news, searchTerm } = this.state;
-
-    return news.filter(listItem =>
-      listItem.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
   render() {
-    const { searchTerm } = this.state;
-
-    const news = this.filterList();
+    const { stories, searchTerm } = this.state;
 
     return (
       <main className="app">
@@ -75,17 +71,17 @@ class App extends Component {
           </Section>
           <Section>
             <Search
-              query={searchTerm}
-              placeholder="Enter news title"
-              handleQueryChange={this.changeSearchTerm}
+              value={searchTerm}
+              onChange={this.onSearchChange}
+              onSubmit={this.onSearchSubmit}
             />
           </Section>
           <Section>
-            {news && (
-              <NewsTable
+            {stories && (
+              <StoriesTable
                 {...{
-                  news,
-                  hideNews: this.dismissListItem
+                  stories,
+                  onDismiss: this.onStoryDismiss
                 }}
               />
             )}
