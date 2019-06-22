@@ -1,5 +1,5 @@
 import { Component } from 'inferno';
-import axios from 'axios';
+import { connect } from 'inferno-redux';
 
 import Header from './layout/Header';
 import Search from './forms/Search';
@@ -7,80 +7,29 @@ import Section from './layout/Section';
 import StoriesTable from './tables/StoriesTable';
 import LoadingButton from './shared/LoadingButton';
 
-import { API } from '../constants';
+import { fetchStories, selectStories, API } from '../redux/modules/stories';
 
+/**
+ * TODO:
+ *  1. Implement pagination
+ *  2. Implement sorting
+ */
 class App extends Component {
-  _isMounted = false;
-
   state = {
-    stories: [],
     searchKey: '',
-    searchTerm: API.DEFAULT_QUERY,
-    error: null,
-    isLoading: false
+    searchTerm: API.DEFAULT_QUERY
   };
 
   componentDidMount() {
-    this._isMounted = true;
-
     this.makeApiCall();
   }
 
-  componentWillMount() {
-    this._isMounted = false;
-  }
-
-  makeApiCall = () => {
+  makeApiCall = (page = 0) => {
     const { searchTerm } = this.state;
 
     this.setState({ searchKey: searchTerm }, () => {
-      this.needsToMakeApiCall(searchTerm) && this.fetchStories(searchTerm);
+      this.props.fetchStories(searchTerm, page);
     });
-  };
-
-  needsToMakeApiCall = searchTerm => {
-    return !this.state.stories[searchTerm];
-  };
-
-  setStories = data => {
-    const { hits, page } = data;
-    const { searchKey, stories } = this.state;
-
-    const oldHits =
-      stories && stories[searchKey] ? stories[searchKey].hits : [];
-
-    const newHits = [...oldHits, ...hits];
-
-    this.setState({
-      stories: {
-        ...stories,
-        [searchKey]: {
-          hits: newHits,
-          page
-        }
-      },
-      isLoading: false
-    });
-  };
-
-  fetchStories = (searchTerm, page) => {
-    const queryUrl = this.buildQueryUrl(searchTerm, page);
-
-    this.setState({ isLoading: true });
-
-    axios(queryUrl)
-      .then(result => this._isMounted && this.setStories(result.data))
-      .catch(error => this._isMounted && this.setState({ error }));
-  };
-
-  showMoreStories = page => {
-    this.fetchStories(this.state.searchKey, page);
-  };
-
-  buildQueryUrl = (searchTerm, page = 0) => {
-    return `${API.PATH_BASE}${API.PATH_SEARCH}${
-      API.PARAM_SEARCH
-    }${searchTerm}&${API.PARAM_PAGE}${page}&${API.PARAM_HPP}${API.DEFAULT_HPP}`;
   };
 
   onSearchChange = event => {
@@ -95,33 +44,12 @@ class App extends Component {
     this.makeApiCall();
   };
 
-  onStoryDismiss = id => {
-    const { searchKey, stories } = this.state;
-    const { hits, page } = stories[searchKey];
-
-    const isNotId = story => story.objectID !== id;
-
-    const updatedHits = hits.filter(isNotId);
-
-    this.setState({
-      stories: {
-        ...stories,
-        [searchKey]: {
-          hits: updatedHits,
-          page
-        }
-      }
-    });
-  };
-
   render() {
-    const { error, stories, searchKey, searchTerm, isLoading } = this.state;
+    const { error, isLoading, data } = this.props.stories;
 
-    const page =
-      (stories && stories[searchKey] && stories[searchKey].page) || 0;
+    const { searchTerm } = this.state;
 
-    const hits =
-      (stories && stories[searchKey] && stories[searchKey].hits) || [];
+    const page = (data && data.page) || 0;
 
     return (
       <main className="app">
@@ -144,7 +72,7 @@ class App extends Component {
             ) : (
               <StoriesTable
                 {...{
-                  stories: hits,
+                  stories: data.hits,
                   onDismiss: this.onStoryDismiss
                 }}
               />
@@ -153,7 +81,7 @@ class App extends Component {
           <Section>
             <LoadingButton
               className="btn btn-secondary btn-sm"
-              onClick={() => this.showMoreStories(page + 1)}
+              onClick={() => this.makeApiCall(page + 1)}
               {...{ isLoading }}
             >
               More stories
@@ -165,4 +93,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  stories: selectStories(state)
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchStories }
+)(App);
