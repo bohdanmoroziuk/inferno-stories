@@ -19,23 +19,42 @@ const PARAM_HPP = 'hitsPerPage=';
 class App extends Component {
   state = {
     stories: [],
+    searchKey: '',
     searchTerm: DEFAULT_QUERY
   };
 
   componentDidMount() {
-    this.fetchStories(this.state.searchTerm);
+    this.makeApiCall();
   }
+
+  makeApiCall = () => {
+    const { searchTerm } = this.state;
+
+    this.setState({ searchKey: searchTerm }, () => {
+      this.needsToMakeApiCall(searchTerm) && this.fetchStories(searchTerm);
+    });
+  };
+
+  needsToMakeApiCall = searchTerm => {
+    return !this.state.stories[searchTerm];
+  };
 
   setStories = data => {
     const { hits, page } = data;
+    const { searchKey, stories } = this.state;
 
-    const oldHits = page !== 0 ? this.state.stories.hits : [];
+    const oldHits =
+      stories && stories[searchKey] ? stories[searchKey].hits : [];
+
     const newHits = [...oldHits, ...hits];
 
     this.setState({
       stories: {
-        hits: newHits,
-        page
+        ...stories,
+        [searchKey]: {
+          hits: newHits,
+          page
+        }
       }
     });
   };
@@ -50,7 +69,7 @@ class App extends Component {
   };
 
   showMoreStories = page => {
-    this.fetchStories(this.state.searchTerm, page);
+    this.fetchStories(this.state.searchKey, page);
   };
 
   buildQueryUrl = (searchTerm, page = 0) => {
@@ -66,22 +85,36 @@ class App extends Component {
   onSearchSubmit = event => {
     event.preventDefault();
 
-    this.fetchStories(this.state.searchTerm);
+    this.makeApiCall();
   };
 
   onStoryDismiss = id => {
+    const { searchKey, stories } = this.state;
+    const { hits, page } = stories[searchKey];
+
     const isNotId = story => story.objectID !== id;
 
-    const updatedHits = this.state.stories.hits.filter(isNotId);
+    const updatedHits = hits.filter(isNotId);
 
     this.setState({
-      stories: { ...this.state.stories, hits: updatedHits }
+      stories: {
+        ...stories,
+        [searchKey]: {
+          hits: updatedHits,
+          page
+        }
+      }
     });
   };
 
   render() {
-    const { stories, searchTerm } = this.state;
-    const page = (stories && stories.page) || 0;
+    const { stories, searchKey, searchTerm } = this.state;
+
+    const page =
+      (stories && stories[searchKey] && stories[searchKey].page) || 0;
+
+    const hits =
+      (stories && stories[searchKey] && stories[searchKey].hits) || [];
 
     return (
       <main className="app">
@@ -100,7 +133,7 @@ class App extends Component {
             {stories && (
               <StoriesTable
                 {...{
-                  stories: stories.hits,
+                  stories: hits,
                   onDismiss: this.onStoryDismiss
                 }}
               />
