@@ -4,14 +4,13 @@ import { connect } from 'inferno-redux';
 import Header from './layout/Header';
 import Search from './forms/Search';
 import Section from './layout/Section';
-import StoriesTable from './tables/StoriesTable';
-import LoadingButton from './shared/LoadingButton';
+import LoadingStoriesTable from './tables/LoadingStoriesTable';
+import Pagination from './shared/Pagination';
 
 import { fetchStories, selectStories, API } from '../redux/modules/stories';
 
 /**
  * TODO:
- *  1. Implement pagination
  *  2. Implement sorting
  */
 class App extends Component {
@@ -50,6 +49,9 @@ class App extends Component {
     const { searchTerm } = this.state;
 
     const page = (data && data.page) || 0;
+    const totalPages = data.nbPages;
+
+    console.log(data);
 
     return (
       <main className="app">
@@ -70,8 +72,9 @@ class App extends Component {
                 Something went wrong!!!
               </div>
             ) : (
-              <StoriesTable
+              <LoadingStoriesTable
                 {...{
+                  isLoading,
                   stories: data.hits,
                   onDismiss: this.onStoryDismiss
                 }}
@@ -79,13 +82,11 @@ class App extends Component {
             )}
           </Section>
           <Section>
-            <LoadingButton
-              className="btn btn-secondary btn-sm"
-              onClick={() => this.makeApiCall(page + 1)}
-              {...{ isLoading }}
-            >
-              More stories
-            </LoadingButton>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              changePage={this.makeApiCall}
+            />
           </Section>
         </div>
       </main>
