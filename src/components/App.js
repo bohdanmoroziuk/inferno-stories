@@ -12,6 +12,7 @@ import { fetchStories, selectStories, API } from '../redux/modules/stories';
 /**
  * TODO:
  *  2. Implement sorting
+ *  3. Refactor code
  */
 class App extends Component {
   state = {
