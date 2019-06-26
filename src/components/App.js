@@ -58,7 +58,7 @@ class App extends Component {
       <main className="app">
         <div className="container">
           <Section>
-            <Header title="Stories" />
+            <Header title={process.env.INFERNO_APP_NAME} />
           </Section>
           <Section>
             <Search
