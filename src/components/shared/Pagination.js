@@ -1,6 +1,6 @@
 import { Component } from 'inferno';
 
-export default class Paginatino extends Component {
+export default class Pagination extends Component {
   get hasPrev() {
     return this.props.currentPage > 0;
   }
