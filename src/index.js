@@ -1,5 +1,6 @@
 import { render } from 'inferno';
 import { Provider } from 'inferno-redux';
+import { initDevTools } from 'inferno-devtools';
 import * as serviceWorker from './serviceWorker';
 
 import store from './redux/store';
@@ -25,3 +26,5 @@ render(
 serviceWorker.unregister();
 
 module.hot && module.hot.accept();
+
+initDevTools();
