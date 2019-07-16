@@ -1,3 +1,5 @@
+import Icon from './Icon';
+
 const Pagination = ({ currentPage, totalPages, changePage }) => {
   const hasPrev = currentPage > 0;
 
@@ -23,12 +25,12 @@ const Pagination = ({ currentPage, totalPages, changePage }) => {
         <ul class="pagination justify-content-end">
           <li class={hasPrev ? 'page-item' : 'page-item disabled'}>
             <span class="page-link" onClick={prevPage}>
-              &laquo;
+              <Icon name="chevron-left" />
             </span>
           </li>
           <li class={hasNext ? 'page-item' : 'page-item disabled'}>
             <span class="page-link" onClick={nextPage}>
-              &raquo;
+             <Icon name="chevron-right" />
             </span>
           </li>
         </ul>
