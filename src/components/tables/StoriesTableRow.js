@@ -4,7 +4,12 @@ import Button from '../shared/Button';
 const StoriesTableRow = ({ story, onStoryDismiss }) => (
   <tr class="news-table-row" key={story.objectID}>
     <td>
-      <a href={story.url}>{story.title}</a>
+      <a 
+        href={story.url}
+        target="_blank"
+      >
+        {story.title}
+      </a>
     </td>
     <td>{story.author}</td>
     <td className="text-center">{story.num_comments}</td>
