@@ -2,19 +2,18 @@ import { arrayOf, object, func } from 'prop-types';
 import StoriesTableRow from './StoriesTableRow';
 import Icon from '../shared/Icon';
 
-const StoriesTable = ({ stories, onDismiss }) => {
+const StoriesTable = ({ stories }) => {
   const renderTableHead = () => (
     <thead>
       <tr>
         <th>Title</th>
         <th>Author</th>
         <th className="text-center">
-          <Icon variant="far" icon="comments" />
+          <Icon type="far" name="comments" />
         </th>
         <th className="text-center">
-          <Icon variant="far" icon="thumbs-up" />
+          <Icon type="far" name="thumbs-up" />
         </th>
-        <th />
       </tr>
     </thead>
   );
@@ -23,18 +22,9 @@ const StoriesTable = ({ stories, onDismiss }) => {
     <tbody>{stories && stories.map(renderStory)}</tbody>
   );
 
-  const renderStory = story => {
-    const handleClick = () => onDismiss(story.objectID);
-
-    return (
-      <StoriesTableRow
-        {...{
-          story,
-          onStoryDismiss: handleClick
-        }}
-      />
-    );
-  };
+  const renderStory = story => (
+    <StoriesTableRow key={story.objectID} story={story} />
+  );
 
   return (
     <div className="table-responsive">

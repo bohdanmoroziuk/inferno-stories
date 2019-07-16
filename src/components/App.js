@@ -7,7 +7,8 @@ import Section from './layout/Section';
 import LoadingStoriesTable from './tables/LoadingStoriesTable';
 import Pagination from './shared/Pagination';
 
-import { fetchStories, selectStories, API } from '../redux/modules/stories';
+import { operations, selectors } from '../redux/modules/stories';
+import { API } from '../services/api/stories';
 
 /**
  * TODO:
@@ -52,8 +53,6 @@ class App extends Component {
     const page = (data && data.page) || 0;
     const totalPages = data.nbPages;
 
-    console.log(data);
-
     return (
       <main className="app">
         <div className="container">
@@ -76,8 +75,7 @@ class App extends Component {
               <LoadingStoriesTable
                 {...{
                   isLoading,
-                  stories: data.hits,
-                  onDismiss: this.onStoryDismiss
+                  stories: data.hits
                 }}
               />
             )}
@@ -96,10 +94,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  stories: selectStories(state)
+  stories: selectors.selectStories(state)
 });
 
 export default connect(
   mapStateToProps,
-  { fetchStories }
+  { fetchStories: operations.fetchStories }
 )(App);
