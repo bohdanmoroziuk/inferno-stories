@@ -9,10 +9,10 @@ const StoriesTable = ({ stories, onDismiss }) => {
         <th>Title</th>
         <th>Author</th>
         <th className="text-center">
-          <Icon variant="far" icon="comments" />
+          <Icon type="far" name="comments" />
         </th>
         <th className="text-center">
-          <Icon variant="far" icon="thumbs-up" />
+          <Icon type="far" name="thumbs-up" />
         </th>
         <th />
       </tr>

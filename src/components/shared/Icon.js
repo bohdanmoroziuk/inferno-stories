@@ -1,12 +1,12 @@
 import { string, oneOf } from 'prop-types';
 
-const Icon = ({ variant = 'fas', icon }) => (
-  <i className={`${variant} fa-${icon}`} />
+const Icon = ({ type = 'fas', name }) => (
+  <i className={`${type} fa-${name}`} />
 );
 
 Icon.propTypes = {
-  variant: oneOf(['fas', 'far', 'fal', 'fab']),
-  icon: string.isRequired
+  type: oneOf(['fas', 'far', 'fal', 'fab']),
+  name: string.isRequired
 };
 
 export default Icon;
