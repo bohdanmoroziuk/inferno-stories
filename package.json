@@ -29,6 +29,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "inferno-devtools": "^7.1.13",
     "prop-types": "^15.7.2"
   }
 }
