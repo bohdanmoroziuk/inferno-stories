@@ -16,7 +16,9 @@ const Pagination = ({ currentPage, totalPages, changePage }) => {
 
   return (
     <nav aria-label="Page navigation">
-      <div className="d-flex align-items-center justify-content-between">
+      <div 
+        className="d-flex flex-column flex-sm-row align-items-center justify-content-between"
+      >
         <p>
           <span className="mb-0 text-muted">Total pages: {totalPages}</span>
           <span className="mb-0 ml-2 text-muted">
