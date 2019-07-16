@@ -1,3 +1,4 @@
+import { number, func } from 'prop-types';
 import Icon from './Icon';
 
 const Pagination = ({ currentPage, totalPages, changePage }) => {
@@ -37,6 +38,12 @@ const Pagination = ({ currentPage, totalPages, changePage }) => {
       </div>
     </nav>
   );
+};
+
+Pagination.propTypes = {
+  currentPage: number.isRequired,
+  totalPages: number.isRequired,
+  changePage: func.isRequired,
 };
 
 export default Pagination;
