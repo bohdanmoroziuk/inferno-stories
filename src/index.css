@@ -1,3 +1,4 @@
+/* Loader */
 .loader {
   display: inline-block;
   position: relative;
@@ -62,5 +63,49 @@
 
   100% {
     transform: scale(0);
+  }
+}
+
+/* Stories Table */
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  .stories-table,
+  .stories-table * {
+    display: block !important;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .stories-table__head {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .stories-table__row:not(:first-of-type) {
+    padding-top: 1rem;
+  }
+
+  .stories-table__cell {
+    display: block;
+    border: none;
+    position: relative;
+    padding-left: 40% !important;
+  }
+
+  .stories-table__cell:first-of-type {
+    border-top-color: transparent !important; 
+  }
+
+  .stories-table__cell::before {
+    content: attr(data-label);
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 50%;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    width: calc(40% - 0.5rem);
+    padding-right: 0.5rem;
+    white-space: nowrap;
   }
 }
