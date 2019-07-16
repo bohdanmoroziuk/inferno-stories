@@ -7,7 +7,7 @@ import Section from './layout/Section';
 import LoadingStoriesTable from './tables/LoadingStoriesTable';
 import Pagination from './shared/Pagination';
 
-import { fetchStories, selectStories, API } from '../redux/modules/stories';
+import { operations, selectors, constants } from '../redux/modules/stories';
 
 /**
  * TODO:
@@ -17,7 +17,7 @@ import { fetchStories, selectStories, API } from '../redux/modules/stories';
 class App extends Component {
   state = {
     searchKey: '',
-    searchTerm: API.DEFAULT_QUERY
+    searchTerm: constants.API.DEFAULT_QUERY
   };
 
   componentDidMount() {
@@ -94,10 +94,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  stories: selectStories(state)
+  stories: selectors.selectStories(state)
 });
 
 export default connect(
   mapStateToProps,
-  { fetchStories }
+  { fetchStories: operations.fetchStories }
 )(App);
