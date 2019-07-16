@@ -52,8 +52,6 @@ class App extends Component {
     const page = (data && data.page) || 0;
     const totalPages = data.nbPages;
 
-    console.log(data);
-
     return (
       <main className="app">
         <div className="container">
