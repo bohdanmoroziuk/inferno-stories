@@ -7,7 +7,8 @@ import Section from './layout/Section';
 import LoadingStoriesTable from './tables/LoadingStoriesTable';
 import Pagination from './shared/Pagination';
 
-import { operations, selectors, constants } from '../redux/modules/stories';
+import { operations, selectors } from '../redux/modules/stories';
+import { API } from '../services/api/stories';
 
 /**
  * TODO:
@@ -17,7 +18,7 @@ import { operations, selectors, constants } from '../redux/modules/stories';
 class App extends Component {
   state = {
     searchKey: '',
-    searchTerm: constants.API.DEFAULT_QUERY
+    searchTerm: API.DEFAULT_QUERY
   };
 
   componentDidMount() {
