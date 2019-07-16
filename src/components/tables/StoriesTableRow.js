@@ -1,8 +1,8 @@
 import { object } from 'prop-types';
 
 const StoriesTableRow = ({ story }) => (
-  <tr class="news-table-row" key={story.objectID}>
-    <td>
+  <tr class="stories-table__row" key={story.objectID}>
+    <td className="stories-table__cell" data-label="Title">
       <a 
         href={story.url}
         target="_blank"
@@ -11,9 +11,24 @@ const StoriesTableRow = ({ story }) => (
         {story.title}
       </a>
     </td>
-    <td>{story.author}</td>
-    <td className="text-center">{story.num_comments}</td>
-    <td className="text-center">{story.points}</td>
+    <td 
+      className="stories-table__cell" 
+      data-label="Author"
+    >
+      {story.author}
+    </td>
+    <td 
+      className="stories-table__cell" 
+      data-label="Comments"
+    >
+      {story.num_comments}
+    </td>
+    <td 
+      className="stories-table__cell" 
+      data-label="Points"
+    >
+      {story.points}
+    </td>
   </tr>
 );
 
