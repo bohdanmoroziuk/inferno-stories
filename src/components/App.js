@@ -75,8 +75,7 @@ class App extends Component {
               <LoadingStoriesTable
                 {...{
                   isLoading,
-                  stories: data.hits,
-                  onDismiss: this.onStoryDismiss
+                  stories: data.hits
                 }}
               />
             )}
