@@ -4,14 +4,14 @@ import Icon from '../shared/Icon';
 
 const StoriesTable = ({ stories }) => {
   const renderTableHead = () => (
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th className="text-center">
+    <thead className="stories-table__head">
+      <tr className="stories-table__row">
+        <th className="stories-table__heading">Title</th>
+        <th className="stories-table__heading">Author</th>
+        <th className="stories-table__heading">
           <Icon type="far" name="comments" />
         </th>
-        <th className="text-center">
+        <th className="stories-table__heading">
           <Icon type="far" name="thumbs-up" />
         </th>
       </tr>
@@ -19,7 +19,9 @@ const StoriesTable = ({ stories }) => {
   );
 
   const renderTableBody = () => (
-    <tbody>{stories && stories.map(renderStory)}</tbody>
+    <tbody className="stories-table__body">
+      {stories.map(renderStory)}
+    </tbody>
   );
 
   const renderStory = story => (
@@ -27,12 +29,10 @@ const StoriesTable = ({ stories }) => {
   );
 
   return (
-    <div className="table-responsive">
-      <table className="table table-hover news-table">
-        {renderTableHead()}
-        {renderTableBody()}
-      </table>
-    </div>
+    <table className="stories-table table table-hover">
+      {renderTableHead()}
+      {renderTableBody()}
+    </table>
   );
 };
 
