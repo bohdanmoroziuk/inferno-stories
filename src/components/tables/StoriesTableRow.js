@@ -7,6 +7,7 @@ const StoriesTableRow = ({ story, onStoryDismiss }) => (
       <a 
         href={story.url}
         target="_blank"
+        rel="noopener noreferrer"
       >
         {story.title}
       </a>
