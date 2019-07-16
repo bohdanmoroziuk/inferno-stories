@@ -12,8 +12,7 @@ import { API } from '../services/api/stories';
 
 /**
  * TODO:
- *  1. Make the story table fully responsive
- *  2. Implement sorting
+ *  1. Implement sorting
  */
 class App extends Component {
   state = {
