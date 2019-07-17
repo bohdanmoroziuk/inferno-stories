@@ -1,7 +1,6 @@
 import { Component } from 'inferno';
-import Loader from '../components/shared/Loader';
 
-const withLoading = WrappedComponent =>  
+const withLoading = (WrappedComponent, Loader) =>  
   class WithLoading extends Component {
     render() {
       const { isLoading, ...restProps } = this.props;
