@@ -2,7 +2,7 @@ import { arrayOf, object, func } from 'prop-types';
 import StoriesTableRow from './StoriesTableRow';
 import Icon from '../shared/Icon';
 
-const StoriesTable = ({ stories }) => {
+const StoriesTable = ({ stories = [] }) => {
   const renderTableHead = () => (
     <thead className="stories-table__head">
       <tr className="stories-table__row">
