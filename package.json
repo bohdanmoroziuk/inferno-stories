@@ -1,5 +1,6 @@
 {
   "name": "inferno-stories",
+  "description": "An app developed using Inferno.js and Redux to interact with the Hacker News API",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
